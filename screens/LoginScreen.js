@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, KeyboardAvoidingView } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { Button, Image, Input } from "react-native-elements";
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -27,7 +27,7 @@ const LoginScreen = () => {
         <Input
           placeholder="Email"
           type="email"
-          autoFocus={true}
+          autoFocus
           value={email}
           onChangeText={(text) => setEmail(text)}
         />
@@ -45,6 +45,7 @@ const LoginScreen = () => {
         containerStyle={styles.button}
         type={"outline"}
         title={"Register"}
+        onPress={() => navigation.navigate("Register")}
       />
       {/* trick to give space between keybpard and above buttons */}
       <View style={{ height: 100 }} />

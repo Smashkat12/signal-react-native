@@ -6,10 +6,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import LoginScreen from "./screens/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen";
 
 const Stack = createStackNavigator();
 
-/* global styling options */
+/* global styling options,you can also use useLayoutEffect to achive the same in components */
 const globalScreenOptions = {
   headerStyle: { backgroundColor: "#2C6BED" },
   headerTitleStyle: { color: "white" },
@@ -22,6 +23,7 @@ export default function App() {
       {/* screenOptions provide global style to all the screens */}
       <Stack.Navigator screenOptions={globalScreenOptions}>
         <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Register" component={RegisterScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
