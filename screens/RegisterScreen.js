@@ -2,6 +2,7 @@ import React, { useLayoutEffect, useState } from "react";
 import { StyleSheet, View, KeyboardAvoidingView } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { Button, Input, Text } from "react-native-elements";
+import { auth } from "../firebase";
 
 const RegisterScreen = ({ navigation }) => {
   const [name, setName] = useState("");
@@ -18,6 +19,17 @@ const RegisterScreen = ({ navigation }) => {
 
   const register = () => {
     /* Api call to register user */
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then((authUser) => {
+        authUser.user.updateProfile({
+          displayName: name,
+          photoURL:
+            imageUrl ||
+            "https://iupac.org/wp-content/uploads/2018/05/default-avatar-300x300.png",
+        });
+      })
+      .catch((error) => alert(error.message));
   };
 
   return (
