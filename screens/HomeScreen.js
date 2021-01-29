@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
-import { StyleSheet, Text, View, SafeAreaView, ScrollView } from "react-native";
+import { StyleSheet, View, SafeAreaView, ScrollView } from "react-native";
 import { Avatar } from "react-native-elements";
 import CustomListItem from "../components/CustomListItem";
 import { auth, db } from "../firebase";
@@ -69,11 +69,23 @@ const HomeScreen = ({ navigation }) => {
     });
   }, [navigation]);
 
+  const enterChat = (id, chatName) => {
+    navigation.navigate("Chat", {
+      id: id,
+      chatName: chatName,
+    });
+  };
+
   return (
     <SafeAreaView>
       <ScrollView style={styles.container}>
         {chats.map(({ id, data: { chatName } }) => (
-          <CustomListItem key={id} id={id} chatName={chatName} />
+          <CustomListItem
+            key={id}
+            id={id}
+            chatName={chatName}
+            enterChat={enterChat}
+          />
         ))}
       </ScrollView>
     </SafeAreaView>
