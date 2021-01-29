@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { StyleSheet, Text, View, SafeAreaView, ScrollView } from "react-native";
 import { Avatar } from "react-native-elements";
@@ -10,6 +10,22 @@ const HomeScreen = ({ navigation }) => {
   const signOutUser = () => {
     auth.signOut().then(() => navigation.replace("Login"));
   };
+
+  const [chats, setChats] = useState([]);
+
+  useEffect(() => {
+    /* fetch chats from db and add then to the chats state */
+    const unsubscribe = db.collection("chats").onSnapshot((snapshot) =>
+      setChats(
+        snapshot.docs.map((doc) => ({
+          id: doc.id,
+          data: doc.data(),
+        }))
+      )
+    );
+
+    return () => unsubscribe();
+  }, []);
 
   /* alternative to setting global styles */
   useLayoutEffect(() => {
@@ -55,8 +71,10 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView>
-      <ScrollView>
-        <CustomListItem />
+      <ScrollView style={styles.container}>
+        {chats.map(({ id, data: { chatName } }) => (
+          <CustomListItem key={id} id={id} chatName={chatName} />
+        ))}
       </ScrollView>
     </SafeAreaView>
   );
@@ -64,4 +82,8 @@ const HomeScreen = ({ navigation }) => {
 
 export default HomeScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    height: "100%",
+  },
+});
