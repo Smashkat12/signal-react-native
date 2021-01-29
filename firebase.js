@@ -14,7 +14,7 @@ const firebaseConfig = {
 let app;
 
 /* check if firebase app has not been previously initialised */
-if (firebase.app.length === 0) {
+if (firebase.apps.length === 0) {
   /* initialise the app */
   app = firebase.initializeApp(firebaseConfig);
 } else {
