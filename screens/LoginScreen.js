@@ -1,14 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, KeyboardAvoidingView } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { Button, Image, Input } from "react-native-elements";
+import { auth } from "../firebase";
 
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  useEffect(() => {
+    /* add listener for changes in authentication state */
+    const unsubscribe = auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        /* user is signed in */
+
+        /* dont use navigation.navigate because we done want user to be able to swipe back to the login screen if already athenticated */
+        navigation.replace("Home");
+      }
+    });
+
+    /* clean up -> unsubscribe to the listener */
+    return () => unsubscribe();
+  }, []);
+
   const signIn = () => {
     /* API call for authentication */
+    /* noneed for the .then() as we have a listener that listens for auth state changes */
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .catch((error) => alert(error.message));
   };
 
   return (
@@ -37,6 +57,7 @@ const LoginScreen = ({ navigation }) => {
           type="password"
           value={password}
           onChangeText={(text) => setPassword(text)}
+          onSubmitEditing={signIn}
         />
       </View>
       {/* For react native elements, you need to reference a prop called containerStyle instead of style */}
