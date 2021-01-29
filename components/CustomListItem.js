@@ -8,7 +8,8 @@ const CustomListItem = ({ id, chatName, enterChat }) => {
       <Avatar
         rounded
         source={{
-          uri: "https://avatars.githubusercontent.com/u/38104004?v=4",
+          uri:
+            "https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png",
         }}
       />
       <ListItem.Content>
