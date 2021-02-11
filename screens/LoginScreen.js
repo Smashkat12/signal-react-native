@@ -14,7 +14,7 @@ const LoginScreen = ({ navigation }) => {
       if (authUser) {
         /* user is signed in */
 
-        /* dont use navigation.navigate because we done want user to be able to swipe back to the login screen if already athenticated */
+        /* dont use navigation.navigate because we dont want user to be able to swipe back to the login screen if already athenticated */
         navigation.replace("Home");
       }
     });
